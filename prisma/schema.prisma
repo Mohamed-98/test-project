@@ -1,0 +1,895 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://gado:P@ssw0rd@123@10.1.15.201:3306/ashter_local_test?schema=public"
+}
+
+model activities {
+  id          Int     @id @default(autoincrement())
+  title       String? @db.VarChar(255)
+  type        String? @db.VarChar(255)
+  link        String? @db.VarChar(500)
+  file_name   String? @db.VarChar(100)
+  order       Int?
+  lesson      Int?
+  ref         Int?
+  questions   Int?
+  standard    Int?
+  price_type  String? @db.VarChar(255)
+  price       Int?
+  description String? @db.VarChar(1000)
+}
+
+model admission_status {
+  id          Int           @id @default(autoincrement())
+  title       String?       @db.VarChar(255)
+  type        String?       @db.VarChar(255)
+  application application[]
+}
+
+model answers {
+  id             Int       @id @default(autoincrement())
+  student        Int?
+  activity_type  String?   @db.VarChar(100)
+  activity_id    Int?
+  question       Int?
+  answer         String?   @db.VarChar(20)
+  bloom          Int?
+  dok            Int?
+  difficulty     Int?
+  student_answer String?   @db.VarChar(255)
+  answer_date    DateTime? @db.DateTime(6)
+}
+
+model application {
+  id                Int              @id @default(autoincrement())
+  workflow          Int?
+  current_step      Int?
+  firstname         String?          @db.VarChar(255)
+  middlename        String?          @db.VarChar(255)
+  lastname          String?          @db.VarChar(255)
+  application_date  String?          @db.VarChar(255)
+  application_time  String?          @db.VarChar(255)
+  has_workflow      Int?
+  gender            String?          @db.VarChar(255)
+  secondlanguage    String?          @db.VarChar(255)
+  religion          String?          @db.VarChar(255)
+  phone             String?          @db.VarChar(255)
+  mobile            String?          @db.VarChar(255)
+  citizenship       String?          @db.VarChar(255)
+  branch_id         Int
+  grade_id          Int
+  classroom_id      Int?
+  admission_date    String?          @db.VarChar(255)
+  admission_time    String?          @db.VarChar(255)
+  date_of_birth     String?          @db.VarChar(255)
+  image             String?          @db.VarChar(255)
+  address           String?          @db.VarChar(255)
+  preschool         String?          @db.VarChar(255)
+  father_mobile     String?          @db.VarChar(255)
+  father_email      String?          @db.VarChar(255)
+  father_degree     String?          @db.VarChar(255)
+  father_company    String?          @db.VarChar(255)
+  father_occupation String?          @db.VarChar(255)
+  mother_name       String?          @db.VarChar(255)
+  mother_mobile     String?          @db.VarChar(255)
+  mother_email      String?          @db.VarChar(255)
+  mother_degree     String?          @db.VarChar(255)
+  mother_company    String?          @db.VarChar(255)
+  mother_occupation String?          @db.VarChar(255)
+  previous_school   String?          @db.VarChar(255)
+  havesibling       String?          @db.VarChar(255)
+  parentsEmployee   String?          @db.VarChar(255)
+  status_id         Int
+  branches          branches         @relation(fields: [branch_id], references: [id])
+  grades            grades           @relation(fields: [grade_id], references: [id])
+  admission_status  admission_status @relation(fields: [status_id], references: [id])
+
+  @@index([branch_id], map: "application_branch_id_fkey")
+  @@index([grade_id], map: "application_grade_id_fkey")
+  @@index([status_id], map: "application_status_id_fkey")
+}
+
+model ashtar_codes {
+  id          Int       @id @default(autoincrement())
+  code        String?   @db.VarChar(50)
+  title       String?   @db.VarChar(255)
+  branch      String?   @db.VarChar(100)
+  grade       String?   @db.VarChar(100)
+  value       Decimal?  @db.Decimal(10, 0)
+  used        Boolean?
+  owner       Int?
+  issued_date DateTime? @db.DateTime(6)
+  expiry_date DateTime? @db.DateTime(6)
+  redeem_date DateTime? @db.DateTime(6)
+  teacher     Int?
+  comment     String?   @db.VarChar(255)
+}
+
+model ashtar_enrollments {
+  id              Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  student         Int?
+  branch          String?   @db.VarChar(100)
+  grade           String?   @db.VarChar(100)
+  code            String?   @db.VarChar(50)
+  enrollment_date DateTime? @db.DateTime(0)
+  points          Int?
+  active          Boolean?
+  balance         Int?
+  group           Int?
+  comments        String?   @db.VarChar(500)
+  students        students? @relation(fields: [student], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "subscribers")
+
+  @@index([branch], map: "subject")
+  @@index([student], map: "subscribers")
+  @@index([grade], map: "teacher_id")
+}
+
+model assignments {
+  id              Int           @id @default(autoincrement())
+  title           String?       @db.VarChar(255)
+  type            String?       @db.VarChar(100)
+  lesson          Int?
+  grade           Int?
+  image           String?       @db.VarChar(255)
+  video           String?       @db.VarChar(255)
+  sound           String?       @db.VarChar(255)
+  link            String?       @db.VarChar(255)
+  weight          Int?
+  difficulty      Int?
+  bloom           Int?
+  dok             Int?
+  duration        Int?
+  questions_count Int?
+  attempts        Int?
+  tags            String?       @db.VarChar(255)
+  open_date       String?       @db.VarChar(100)
+  close_date      String?       @db.VarChar(100)
+  cutoff_date     String?       @db.VarChar(100)
+  extend_date     String?       @db.VarChar(100)
+  non_graded      Boolean?
+  description     String?       @db.VarChar(255)
+  weights         weights?      @relation(fields: [weight], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "weight")
+  submissions     submissions[]
+
+  @@index([weight], map: "weight")
+}
+
+model branches {
+  id                   Int           @id @default(autoincrement())
+  title                String?       @db.VarChar(255)
+  interval             Int?
+  days_off             String?       @db.VarChar(255)
+  icon                 String?       @db.VarChar(255)
+  admission            Int?
+  season               Int?
+  admission_open_date  String?       @db.VarChar(255)
+  admission_close_date String?       @db.VarChar(255)
+  admission_open_time  String?       @db.VarChar(255)
+  admission_close_time String?       @db.VarChar(255)
+  application          application[]
+  grades               grades[]
+  students             students[]
+}
+
+model breakdowns {
+  id     Int     @id @default(autoincrement())
+  school Int?
+  title  String? @db.VarChar(255)
+  order  Int?
+}
+
+model buyers {
+  id              Int       @id @default(autoincrement())
+  student         Int?
+  subject         Int?
+  teacher         Int?
+  code            String?   @db.VarChar(50)
+  enrollment_date DateTime? @db.DateTime(0)
+  points          Int?
+  active          Boolean?
+  balance         Int?
+  group           Int?
+  activity        String?   @db.VarChar(255)
+  activity_id     Int?
+  comments        String?   @db.VarChar(500)
+  subjects        subjects? @relation(fields: [subject], references: [id], onDelete: Cascade, map: "buyers_ibfk_1")
+  teachers        teachers? @relation(fields: [teacher], references: [id], onDelete: Cascade, map: "buyers_ibfk_2")
+
+  @@index([subject], map: "subject")
+  @@index([teacher], map: "teacher_id")
+}
+
+model classrooms {
+  id       Int        @id @default(autoincrement())
+  title    String?    @db.VarChar(255)
+  room     String?    @db.VarChar(255)
+  capacity Int?
+  grade_id Int
+  grades   grades     @relation(fields: [grade_id], references: [id])
+  students students[]
+
+  @@index([grade_id], map: "classrooms_grade_id_fkey")
+}
+
+model clients {
+  id           Int        @id @default(autoincrement())
+  firstname    String?    @db.VarChar(255)
+  lastname     String?    @db.VarChar(255)
+  phone        String?    @db.VarChar(100)
+  mobile       String?    @db.VarChar(100)
+  email        String?    @db.VarChar(100)
+  company      String?    @db.VarChar(255)
+  address      String?    @db.VarChar(255)
+  city         String?    @db.VarChar(100)
+  balance      Float?
+  demo_balance Float?
+  country_id   Int?
+  campaign_id  Int?
+  countries    countries? @relation(fields: [country_id], references: [id])
+
+  @@index([country_id], map: "clients_country_id_fkey")
+}
+
+model codes {
+  id          Int       @id @default(autoincrement())
+  code        String?   @db.VarChar(50)
+  title       String?   @db.VarChar(255)
+  subject     Int?
+  teacher     Int?
+  value       Decimal?  @db.Decimal(10, 0)
+  used        Boolean?
+  owner       Int?
+  issued_date DateTime? @db.DateTime(6)
+  expiry_date DateTime? @db.DateTime(6)
+  redeem_date DateTime? @db.DateTime(6)
+  comment     String?   @db.VarChar(255)
+}
+
+model cohorts {
+  id       Int        @id @default(autoincrement())
+  titel    String?    @db.VarChar(100)
+  students students[]
+}
+
+model contacts {
+  id          Int        @id @default(autoincrement())
+  firstname   String?    @db.VarChar(255)
+  lastname    String?    @db.VarChar(255)
+  phone       String?    @db.VarChar(100)
+  mobile      String?    @db.VarChar(100)
+  email       String     @db.VarChar(100)
+  company     String?    @db.VarChar(255)
+  address     String?    @db.VarChar(255)
+  city        String?    @db.VarChar(100)
+  country_id  Int?
+  comments    String?    @db.VarChar(1000)
+  salesman_id Int?
+  campaign_id Int?
+  manager_id  Int?
+  created_at  DateTime?  @db.DateTime(6)
+  job         String?    @db.VarChar(255)
+  last_update DateTime?  @db.DateTime(6)
+  status_id   Int?
+  school      String?    @db.VarChar(255)
+  grade       String?    @db.VarChar(255)
+  countries   countries? @relation(fields: [country_id], references: [id])
+  status      status?    @relation(fields: [status_id], references: [id])
+  events      events[]
+  history     history[]
+
+  @@index([country_id], map: "contacts_country_id_fkey")
+  @@index([salesman_id], map: "contacts_salesman_id_fkey")
+  @@index([status_id], map: "contacts_status_id_fkey")
+}
+
+model countries {
+  id         Int        @id @default(autoincrement())
+  title      String?    @db.VarChar(255)
+  auto_price Int?
+  support    Int?
+  gram_price Float?
+  currency   String?    @db.VarChar(100)
+  clients    clients[]
+  contacts   contacts[]
+}
+
+model coupons {
+  id          Int       @id @default(autoincrement())
+  title       String?   @db.VarChar(255)
+  subject     Int?
+  teacher     Int?
+  value       Decimal?  @db.Decimal(10, 0)
+  used        Boolean?
+  owner       Int?
+  issued_date DateTime? @db.DateTime(0)
+  expiry_date DateTime? @db.DateTime(0)
+  redeem_date DateTime? @db.DateTime(0)
+  activity    String?   @db.VarChar(100)
+  activity_id Int?
+  comment     String?   @db.VarChar(255)
+  students    students? @relation(fields: [owner], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "owner")
+
+  @@index([owner], map: "owner")
+}
+
+model enrollments {
+  id              Int       @id @default(autoincrement())
+  student         Int?
+  subject         Int?
+  teacher         Int?
+  code            String?   @db.VarChar(50)
+  enrollment_date DateTime? @db.DateTime(0)
+  points          Int?
+  active          Boolean?
+  balance         Int?
+  group           Int?
+  comments        String?   @db.VarChar(500)
+  subjects        subjects? @relation(fields: [subject], references: [id], onDelete: Cascade, map: "subject")
+  teachers        teachers? @relation(fields: [teacher], references: [id], onDelete: Cascade, map: "teacher_id")
+
+  @@index([subject], map: "subject")
+  @@index([teacher], map: "teacher_id")
+}
+
+model events {
+  id          Int       @id @default(autoincrement())
+  contact_id  Int?
+  salesman_id Int?
+  type        String?   @db.VarChar(255)
+  title       String?   @db.VarChar(255)
+  event_date  String?   @db.VarChar(100)
+  event_time  String?   @db.VarChar(100)
+  status      String?   @db.VarChar(1000)
+  feedback    String?   @db.VarChar(1000)
+  schedule    Int?
+  created_at  DateTime? @db.DateTime(6)
+  contacts    contacts? @relation(fields: [contact_id], references: [id])
+  users       users?    @relation(fields: [salesman_id], references: [id])
+
+  @@index([contact_id], map: "events_contact_id_fkey")
+  @@index([salesman_id], map: "events_salesman_id_fkey")
+}
+
+model fawrypayment {
+  Id                Int       @id @unique(map: "Id_UNIQUE") @default(autoincrement())
+  referenceNumber   String    @unique(map: "referenceNumber_UNIQUE") @db.VarChar(45)
+  merchantRefNumber String?   @db.VarChar(45)
+  orderAmount       String?   @db.VarChar(45)
+  paymentAmount     String?   @db.VarChar(45)
+  fawryFees         String?   @db.VarChar(45)
+  orderStatus       String?   @db.VarChar(45)
+  paymentMethod     String?   @db.VarChar(45)
+  expirationTime    DateTime? @db.DateTime(0)
+  customerName      String?   @db.VarChar(45)
+  customerMobile    String?   @db.VarChar(45)
+  customerMail      String?   @db.VarChar(45)
+  customerProfileId String?   @db.VarChar(45)
+  signature         String?   @db.VarChar(255)
+  taxes             String?   @db.VarChar(45)
+  statusCode        String?   @db.VarChar(45)
+  statusDescription String?   @db.VarChar(255)
+  basketPayment     String?   @db.VarChar(45)
+  itemId            String?   @db.VarChar(45)
+  currencyCode      String?   @db.VarChar(45)
+  description       String?   @db.VarChar(255)
+  type              String?   @db.VarChar(45)
+  paymentTime       String?   @db.VarChar(100)
+  requestId         String?   @unique(map: "requestId_UNIQUE") @db.VarChar(100)
+}
+
+model followers {
+  id        Int     @id @default(autoincrement())
+  firstname String? @db.VarChar(255)
+  lastname  String? @db.VarChar(255)
+  gender    String? @db.VarChar(255)
+  mobile    String? @db.VarChar(20)
+  email     String? @db.VarChar(100)
+}
+
+model grades {
+  id          Int           @id @default(autoincrement())
+  title       String?       @db.VarChar(255)
+  admission   Boolean?
+  branch_id   Int
+  application application[]
+  classrooms  classrooms[]
+  branches    branches      @relation(fields: [branch_id], references: [id])
+  students    students[]
+
+  @@index([branch_id], map: "grades_branch_id_fkey")
+}
+
+model grades_payment_system {
+  Id    Int     @id @unique(map: "idGrades_Payment_system_UNIQUE") @default(autoincrement())
+  Name  String? @unique(map: "Name_UNIQUE") @db.VarChar(45)
+  Price String? @db.VarChar(45)
+}
+
+model groups {
+  id      Int     @id @default(autoincrement())
+  title   String? @db.VarChar(255)
+  type    String? @db.VarChar(255)
+  subject Int?
+  teacher Int?
+}
+
+model history {
+  id           Int       @id @default(autoincrement())
+  contact_id   Int?
+  status_id    Int?
+  status_title String?   @db.VarChar(100)
+  salesman_id  Int?
+  update_date  String?   @db.VarChar(100)
+  description  String?   @db.VarChar(255)
+  update_time  String?   @db.VarChar(100)
+  contacts     contacts? @relation(fields: [contact_id], references: [id])
+  users        users?    @relation(fields: [salesman_id], references: [id])
+  status       status?   @relation(fields: [status_id], references: [id])
+
+  @@index([contact_id], map: "history_contact_id_fkey")
+  @@index([salesman_id], map: "history_salesman_id_fkey")
+  @@index([status_id], map: "history_status_id_fkey")
+}
+
+model lessons {
+  id         Int       @id @default(autoincrement())
+  title      String?   @db.VarChar(255)
+  subject    Int?
+  order      Int?
+  hide       Boolean?
+  type       String?   @db.VarChar(100)
+  date       DateTime? @db.DateTime(6)
+  breakdown  String?   @db.VarChar(100)
+  teacher    Int?
+  live       Boolean?
+  live_link  String?   @db.VarChar(255)
+  price_type String?   @db.VarChar(255)
+  price      Int?
+}
+
+model lessons_details {
+  lesson_id   Int     @id
+  objectives  String? @db.VarChar(255)
+  weekly_plan String? @db.VarChar(255)
+}
+
+model live_questions {
+  id            Int       @id @default(autoincrement())
+  lesson        Int?
+  student       Int?
+  question      String?   @db.VarChar(2000)
+  question_link String?   @db.VarChar(255)
+  question_time DateTime? @db.DateTime(6)
+  students      students? @relation(fields: [student], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "students")
+
+  @@index([student], map: "students")
+}
+
+model lives {
+  id           Int     @id @default(autoincrement())
+  title        String? @db.VarChar(255)
+  link         String? @db.VarChar(255)
+  live_date    String? @db.VarChar(255)
+  live_time    String? @db.VarChar(255)
+  subject      Int?
+  lesson       Int?
+  descriptions String? @db.VarChar(255)
+}
+
+model notifications {
+  id     Int     @id @default(autoincrement())
+  type   String? @db.VarChar(255)
+  branch Int?
+  body   String? @db.VarChar(3000)
+}
+
+model payments {
+  id           Int       @id @default(autoincrement())
+  student      Int?
+  system       String?   @db.VarChar(255)
+  grade        String?   @db.VarChar(255)
+  amount       Decimal?  @db.Decimal(10, 2)
+  payment_date DateTime? @db.DateTime(6)
+  status       String?   @db.VarChar(100)
+  ref          String    @unique(map: "ref_UNIQUE") @db.VarChar(150)
+  description  String?   @db.VarChar(255)
+}
+
+model questions {
+  id                Int                 @id @default(autoincrement())
+  lesson            Int?
+  title             String?             @db.VarChar(2000)
+  type              String?             @db.VarChar(255)
+  difficulty        Int?
+  dok               Int?
+  bloom             Int?
+  answer            String?             @db.VarChar(255)
+  feedback          String?             @db.VarChar(500)
+  standard          Int?
+  subject           Int?
+  owner             Int?
+  tags              String?             @db.VarChar(255)
+  duration          Int?
+  image             String?             @db.VarChar(255)
+  video             String?             @db.VarChar(255)
+  sound             String?             @db.VarChar(255)
+  link              String?             @db.VarChar(255)
+  answer_feedback   String?             @db.VarChar(2000)
+  answer_image      String?             @db.VarChar(255)
+  answer_video      String?             @db.VarChar(255)
+  answer_sound      String?             @db.VarChar(255)
+  answer_link       String?             @db.VarChar(255)
+  review            String?             @db.VarChar(255)
+  reviewer          Int?
+  review_time       String?             @db.VarChar(100)
+  last_edit         String?             @db.VarChar(100)
+  editor            Int?
+  questions_options questions_options[]
+}
+
+model questions_options {
+  id        Int        @id @default(autoincrement())
+  question  Int?
+  title     String?    @db.VarChar(255)
+  sound     String?    @db.VarChar(255)
+  correct   Boolean?
+  questions questions? @relation(fields: [question], references: [id], onDelete: Cascade, map: "options")
+
+  @@index([question], map: "options")
+}
+
+model resources {
+  id          Int     @id @default(autoincrement())
+  title       String? @db.VarChar(255)
+  type        String? @db.VarChar(100)
+  lesson      Int?
+  link        String? @db.VarChar(255)
+  order       Int?
+  description String? @db.VarChar(255)
+}
+
+model schedules {
+  id           Int     @id @default(autoincrement())
+  group        Int?
+  attend_day   String? @db.VarChar(100)
+  attend_time  String? @db.VarChar(100)
+  leaving_time String? @db.VarChar(100)
+}
+
+model schools {
+  id     Int      @id @default(autoincrement())
+  title  String?  @db.VarChar(255)
+  active Boolean?
+  logo   String?  @db.VarChar(255)
+}
+
+model sections {
+  id      Int     @id @default(autoincrement())
+  subject Int?
+  title   String? @db.VarChar(255)
+  owner   Int?
+}
+
+model securitty_roles {
+  id            Int      @id @default(autoincrement())
+  group         Int?
+  role          String?  @db.VarChar(100)
+  description   String?  @db.VarChar(255)
+  module        String?  @db.VarChar(255)
+  list_records  Boolean?
+  add_record    Boolean?
+  update_record Boolean?
+  delete_record Boolean?
+}
+
+model security_groups {
+  id          Int     @id @default(autoincrement())
+  group       String? @db.VarChar(100)
+  description String? @db.VarChar(255)
+}
+
+model sessions {
+  id           Int     @id @default(autoincrement())
+  title        String? @db.VarChar(255)
+  type         String? @db.VarChar(255)
+  link         String? @db.VarChar(255)
+  lesson       Int?
+  session_date String? @db.VarChar(100)
+  session_time String? @db.VarChar(100)
+  description  String? @db.VarChar(255)
+}
+
+model signals {
+  id       Int     @id @default(autoincrement())
+  activity Int?
+  intime   Int?
+  totime   Int?
+  type     String? @db.VarChar(255)
+  link     String? @db.VarChar(255)
+  question Int?
+}
+
+model standards {
+  id          Int     @id @default(autoincrement())
+  code        String? @db.VarChar(255)
+  domain      String? @db.VarChar(255)
+  cluster     String? @db.VarChar(255)
+  title       String? @db.VarChar(1000)
+  parent      Int?
+  subject     Int?
+  description String? @db.VarChar(1000)
+}
+
+model status {
+  id       Int        @id @default(autoincrement())
+  title    String?    @db.VarChar(255)
+  type     String?    @db.VarChar(255)
+  color    String?    @db.VarChar(100)
+  icon     String?    @db.VarChar(100)
+  contacts contacts[]
+  history  history[]
+}
+
+model students {
+  id                 Int                  @id @default(autoincrement())
+  uid                String?              @db.VarChar(255)
+  firstname          String?              @db.VarChar(255)
+  lastname           String?              @db.VarChar(255)
+  gender             String?              @db.VarChar(255)
+  secondlanguage     String?              @db.VarChar(255)
+  religion           String?              @db.VarChar(255)
+  phone              String?              @db.VarChar(100)
+  mobile             String?              @db.VarChar(100)
+  email              String?              @db.VarChar(255)
+  system             String?              @db.VarChar(255)
+  grade              String?              @db.VarChar(255)
+  citizenship        String?              @db.VarChar(255)
+  withdraw           Boolean?
+  points             Int?
+  date_of_birth      String?              @db.VarChar(100)
+  image              String?              @db.VarChar(255)
+  address            String?              @db.VarChar(255)
+  preschool          String?              @db.VarChar(255)
+  father_mobile      String?              @db.VarChar(255)
+  father_email       String?              @db.VarChar(255)
+  father_degree      String?              @db.VarChar(255)
+  father_company     String?              @db.VarChar(255)
+  father_occupation  String?              @db.VarChar(255)
+  mother_name        String?              @db.VarChar(255)
+  mother_mobile      String?              @db.VarChar(100)
+  mother_email       String?              @db.VarChar(255)
+  mother_degree      String?              @db.VarChar(255)
+  mother_company     String?              @db.VarChar(255)
+  mother_occupation  String?              @db.VarChar(255)
+  previous_school    String?              @db.VarChar(255)
+  havesibling        String?              @db.VarChar(50)
+  parentsEmployee    String?              @db.VarChar(50)
+  username           String?              @db.VarChar(255)
+  password           String?              @db.VarChar(255)
+  national_id        String?              @db.VarChar(100)
+  father_nationalid  String?              @db.VarChar(100)
+  mother_nationalid  String?              @db.VarChar(100)
+  branch_id          Int?
+  classroom_id       Int?
+  cohort_id          Int?
+  grade_id           Int?
+  lang               String?              @db.VarChar(20)
+  country            String?              @db.VarChar(20)
+  system_title       String?              @db.VarChar(255)
+  grade_title        String?              @db.VarChar(255)
+  ashtar_enrollments ashtar_enrollments[]
+  coupons            coupons[]
+  live_questions     live_questions[]
+  branches           branches?            @relation(fields: [branch_id], references: [id], onDelete: Restrict)
+  classrooms         classrooms?          @relation(fields: [classroom_id], references: [id], onDelete: Restrict)
+  cohorts            cohorts?             @relation(fields: [cohort_id], references: [id], onDelete: Restrict)
+  grades             grades?              @relation(fields: [grade_id], references: [id], onDelete: Restrict)
+  submissions        submissions[]
+
+  @@index([branch_id], map: "students_branch_id_fkey")
+  @@index([classroom_id], map: "students_classroom_id_fkey")
+  @@index([cohort_id], map: "students_cohort_id_fkey")
+  @@index([grade_id], map: "students_grade_id_fkey")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model students_subjects {
+  student Int?
+  subject Int?
+
+  @@ignore
+}
+
+model subjects {
+  id            Int           @id @default(autoincrement())
+  title         String?       @db.VarChar(255)
+  grade         Int?
+  mirror        Int?
+  source        Int?
+  participation Int?
+  points        Int?
+  questions     Int?
+  assignments   Int?
+  videos        Int?
+  sheets        Int?
+  paid          Boolean?
+  active        Int?
+  icon          String?       @db.VarChar(255)
+  teacher       Int?
+  buyers        buyers[]
+  enrollments   enrollments[]
+  teachers      teachers?     @relation(fields: [teacher], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "teacher")
+
+  @@index([teacher], map: "teacher")
+}
+
+model submission_attachments {
+  id          Int          @id @default(autoincrement())
+  submission  Int?
+  type        String?      @db.VarChar(100)
+  link        String?      @db.VarChar(255)
+  upload_date DateTime?    @db.DateTime(0)
+  description String?      @db.VarChar(255)
+  submissions submissions? @relation(fields: [submission], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "submission")
+
+  @@index([submission], map: "submission")
+}
+
+model submissions {
+  id                     Int                      @id @default(autoincrement())
+  student_id             Int?
+  assignment_id          Int?
+  grade                  Int?
+  right_answers          Int?
+  wrong_answers          Int?
+  missed_answers         Int?
+  submission_date        DateTime?                @db.DateTime(6)
+  mark_date              DateTime?                @db.DateTime(6)
+  feedback               String?                  @db.VarChar(255)
+  description            String?                  @db.VarChar(255)
+  submission_attachments submission_attachments[]
+  assignments            assignments?             @relation(fields: [assignment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "assignment")
+  students               students?                @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "student")
+
+  @@index([assignment_id], map: "assignment_id")
+  @@index([student_id], map: "student")
+}
+
+model teachers {
+  id          Int           @id @default(autoincrement())
+  firstname   String?       @db.VarChar(100)
+  lastname    String?       @db.VarChar(100)
+  title       String?       @db.VarChar(50)
+  image       String?       @db.VarChar(255)
+  bio         String?       @db.VarChar(1000)
+  subject     String?       @db.VarChar(100)
+  discription String?       @db.VarChar(255)
+  email       String?       @db.VarChar(255)
+  active      Boolean?
+  role        Int?
+  school      Int?
+  buyers      buyers[]
+  enrollments enrollments[]
+  subjects    subjects[]
+  users       users[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model teachers_subjects {
+  user    Int?
+  subject Int?
+  type    String? @db.VarChar(100)
+
+  @@ignore
+}
+
+model transactions {
+  id               Int     @id @default(autoincrement())
+  client_id        Int?
+  transaction_date String? @db.VarChar(200)
+  type             String? @db.VarChar(255)
+  paid             Int?
+  amount           Float?
+  currency         String? @db.VarChar(100)
+  payment          String? @db.VarChar(255)
+  ref              String? @db.VarChar(255)
+  description      String? @db.VarChar(255)
+}
+
+model users {
+  id        Int       @id @default(autoincrement())
+  teacher   Int?
+  firstname String?   @db.VarChar(255)
+  lastname  String?   @db.VarChar(255)
+  email     String?   @db.VarChar(255)
+  mobile    String?   @db.VarChar(100)
+  role      Int?
+  role_name String?   @db.VarChar(100)
+  events    events[]
+  history   history[]
+  teachers  teachers? @relation(fields: [teacher], references: [id], onDelete: Cascade, map: "users")
+
+  @@index([teacher], map: "teacher")
+}
+
+model weeks {
+  id           Int     @id @default(autoincrement())
+  subject      Int?
+  title        String? @db.VarChar(255)
+  order        Int?
+  type         String? @db.VarChar(255)
+  descriptions String? @db.VarChar(255)
+}
+
+model weights {
+  id          Int           @id @default(autoincrement())
+  title       String?       @db.VarChar(255)
+  order       Int?
+  weight      Int?
+  subject     Int?
+  module      String?       @db.VarChar(255)
+  tag         String?       @db.VarChar(255)
+  assignments assignments[]
+}
+
+model workflow {
+  id              Int     @id @default(autoincrement())
+  history_id      Int?
+  order           Int?
+  title           String? @db.VarChar(255)
+  after_per_hours Int?
+  description     String? @db.VarChar(500)
+  type            String? @db.VarChar(255)
+  template        String? @db.VarChar(500)
+}
+
+model workflow_steps {
+  id          Int     @id @default(autoincrement())
+  workflow    Int?
+  title       String? @db.VarChar(255)
+  type        String? @db.VarChar(255)
+  owner       Int?
+  description String? @db.VarChar(255)
+}
+
+model workflows {
+  id          Int     @id @default(autoincrement())
+  title       String? @db.VarChar(255)
+  description String? @db.VarChar(255)
+}
+
+model wprogress {
+  id                        String  @id @db.VarChar(255)
+  student                   Int?
+  system                    String? @db.VarChar(255)
+  grade                     String? @db.VarChar(255)
+  subject                   String? @db.VarChar(255)
+  week_title                String? @db.VarChar(255)
+  week_path                 String? @db.VarChar(255)
+  right_answers             Int?
+  wrong_answers             Int?
+  bloom_knowledge_right     Int?
+  bloom_knowledge_wrong     Int?
+  bloom_application_right   Int?
+  bloom_application_wrong   Int?
+  bloom_understanding_right Int?
+  bloom_understanding_wrong Int?
+  bloom_analysis_right      Int?
+  bloom_analysis_wrong      Int?
+  bloom_creating_right      Int?
+  bloom_creating_wrong      Int?
+  bloom_evaluation_right    Int?
+  bloom_evaluation_wrong    Int?
+  dok_recall_right          Int?
+  dok_recall_wrong          Int?
+  dok_skill_right           Int?
+  dok_skill_wrong           Int?
+  dok_strategic_right       Int?
+  dok_strategic_wrong       Int?
+  dok_extended_right        Int?
+  dok_extended_wrong        Int?
+}
