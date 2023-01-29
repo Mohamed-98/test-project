@@ -17,13 +17,13 @@ export class CouponsController {
 
   @Get('owner/:id')
   findManyOwner(@Param('id') Owner: number) {
-    console.log('test findOne');
+    console.log('test searching for coupons by OwnerId');
     return this.couponsService.findManyOwner(+Owner);
   }
 
   @Get('title/:id')
   findManyTitle(@Param('id') title: any) {
-    console.log('test findOne');
+    console.log('test searching for coupons by titleId');
     return this.couponsService.findManyTitle(title);
   }
 

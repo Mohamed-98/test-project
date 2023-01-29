@@ -17,13 +17,13 @@ export class BuyersController {
 
   @Get('student/:id')
   findManyStudent(@Param('id') Student: number) {
-    console.log('test findOne');
+    console.log('test searching for buyers for student');
     return this.buyersService.findManyStudent(+Student);
   }
 
   @Get('code/:id')
   findManyCode(@Param('id') code: any) {
-    console.log('test findOne');
+    console.log('test searching for buyers for student');
     return this.buyersService.findManyCode(code);
   }
 

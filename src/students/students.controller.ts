@@ -17,7 +17,7 @@ export class StudentsController {
 
   @Post('search')
   search_students(@Body() body) {
-    console.log('search_students');
+    console.log('test searching for search_students for FirstName');
     return this.studentsService.search_students(body.FirstName);
   }
 

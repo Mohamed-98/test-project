@@ -17,13 +17,13 @@ export class AshtarCodesController {
 
   @Get('owner/:id')
   findManyOwner(@Param('id') Owner: number) {
-    console.log('test findOne');
+    console.log('test searching for ashtar-codes for Owner');
     return this.ashtarCodesService.findManyOwner(+Owner);
   }
 
   @Get('code/:id')
   findManyCode(@Param('id') code: any) {
-    console.log('test findOne');
+    console.log('test searching for ashtar-codes for id');
     return this.ashtarCodesService.findManyCode(code);
   }
 

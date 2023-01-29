@@ -17,12 +17,12 @@ export class EnrollmentsController {
 
   @Get('student/:id')
   findManyStudent(@Param('id') Student: number) {
-    console.log('test findOne');
+    console.log('test searching for enrollments by StudentId');
     return this.enrollmentsService.findManyStudent(+Student);
   }
   @Get('code/:id')
   findManyCode(@Param('id') code: any) {
-    console.log('test findOne');
+    console.log('test searching for enrollments by codeId');
     return this.enrollmentsService.findManyCode(code);
   }
 

@@ -19,13 +19,13 @@ export class AshtarEnrollmentsController {
 
   @Get('student/:id')
   findManyStudent(@Param('id') Student: number) {
-    console.log('test findOne');
+    console.log('test searching for ashtar-enrollments by StudentID');
     return this.ashtarEnrollmentsService.findManyStudent(+Student);
   }
 
   @Get('code/:id')
   findManyCode(@Param('id') code: any) {
-    console.log('test findOne');
+    console.log('test searching for ashtar-enrollments by codeId');
     return this.ashtarEnrollmentsService.findManyCode(code);
   }
 

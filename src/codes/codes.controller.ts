@@ -17,13 +17,13 @@ export class CodesController {
 
   @Get('owner/:id')
   findManyOwner(@Param('id') Owner: number) {
-    console.log('test findOne');
+    console.log('test searching for codes by OwnerId');
     return this.codesService.findManyOwner(+Owner);
   }
 
   @Get('code/:id')
   findManyCode(@Param('id') code: any) {
-    console.log('test findOne');
+    console.log('test searching for codes by codeId');
     return this.codesService.findManyCode(code);
   }
 
