@@ -9,6 +9,7 @@ import { BuyersModule } from './buyers/buyers.module';
 import { CodesModule } from './codes/codes.module';
 import { CouponsModule } from './coupons/coupons.module';
 import { ActivitiesModule } from './activities/activities.module';
+import { StudentsModule } from './students/students.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ActivitiesModule } from './activities/activities.module';
     CouponsModule,
     AshtarCodesModule,
     ActivitiesModule,
+    StudentsModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
