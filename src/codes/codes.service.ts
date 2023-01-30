@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { CreateCodeDto } from './dto/create-code.dto';
 import { UpdateCodeDto } from './dto/update-code.dto';
@@ -12,6 +13,9 @@ export class CodesService {
 
   async findManyOwner(Owner: number) {
     const students = await this.prisma.codes.findMany({
+      include: {
+        teachers: true,
+      },
       where: {
         owner: Owner,
       },
@@ -21,6 +25,9 @@ export class CodesService {
 
   async findManyCode(code: any) {
     const students = await this.prisma.codes.findMany({
+      include: {
+        teachers: true,
+      },
       where: {
         code: code,
       },

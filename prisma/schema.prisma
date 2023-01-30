@@ -107,6 +107,11 @@ model ashtar_codes {
   redeem_date DateTime? @db.DateTime(6)
   teacher     Int?
   comment     String?   @db.VarChar(255)
+  students    students? @relation(fields: [owner], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ashtar_codes_students1")
+  teachers    teachers? @relation(fields: [teacher], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ashtar_codes_teachers1")
+
+  @@index([teacher], map: "fk_ashtar_codes_teachers1_idx")
+  @@index([owner], map: "fk_ashtar_codes_students1_idx")
 }
 
 model ashtar_enrollments {
@@ -247,6 +252,9 @@ model codes {
   expiry_date DateTime? @db.DateTime(6)
   redeem_date DateTime? @db.DateTime(6)
   comment     String?   @db.VarChar(255)
+  teachers    teachers? @relation(fields: [teacher], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_codes_teachers1")
+
+  @@index([teacher], map: "fk_codes_teachers1_idx")
 }
 
 model cohorts {
@@ -726,6 +734,7 @@ model students {
   country            String?              @db.VarChar(20)
   system_title       String?              @db.VarChar(255)
   grade_title        String?              @db.VarChar(255)
+  ashtar_codes       ashtar_codes[]
   ashtar_enrollments ashtar_enrollments[]
   coupons            coupons[]
   live_questions     live_questions[]
@@ -741,6 +750,13 @@ model students {
   @@index([grade_id], map: "students_grade_id_fkey")
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model students_subjects {
   student Int?
@@ -805,24 +821,33 @@ model submissions {
 }
 
 model teachers {
-  id          Int           @id @default(autoincrement())
-  firstname   String?       @db.VarChar(100)
-  lastname    String?       @db.VarChar(100)
-  title       String?       @db.VarChar(50)
-  image       String?       @db.VarChar(255)
-  bio         String?       @db.VarChar(1000)
-  subject     String?       @db.VarChar(100)
-  discription String?       @db.VarChar(255)
-  email       String?       @db.VarChar(255)
-  active      Boolean?
-  role        Int?
-  school      Int?
-  buyers      buyers[]
-  enrollments enrollments[]
-  subjects    subjects[]
-  users       users[]
+  id           Int            @id @default(autoincrement())
+  firstname    String?        @db.VarChar(100)
+  lastname     String?        @db.VarChar(100)
+  title        String?        @db.VarChar(50)
+  image        String?        @db.VarChar(255)
+  bio          String?        @db.VarChar(1000)
+  subject      String?        @db.VarChar(100)
+  discription  String?        @db.VarChar(255)
+  email        String?        @db.VarChar(255)
+  active       Boolean?
+  role         Int?
+  school       Int?
+  ashtar_codes ashtar_codes[]
+  buyers       buyers[]
+  codes        codes[]
+  enrollments  enrollments[]
+  subjects     subjects[]
+  users        users[]
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model teachers_subjects {
   user    Int?

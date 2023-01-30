@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -17,13 +18,13 @@ export class BuyersController {
 
   @Get('student/:id')
   findManyStudent(@Param('id') Student: number) {
-    console.log('test searching for buyers for student');
+    console.log('test searching for buyers by studentId');
     return this.buyersService.findManyStudent(+Student);
   }
 
   @Get('code/:id')
   findManyCode(@Param('id') code: any) {
-    console.log('test searching for buyers for student');
+    console.log('test searching for buyers by codeId');
     return this.buyersService.findManyCode(code);
   }
 
