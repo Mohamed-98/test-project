@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -16,9 +17,21 @@ export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
   @Post('search')
-  search_students(@Body() body) {
-    console.log('test searching for search_students for FirstName');
-    return this.studentsService.search_students(body.FirstName);
+  search_studentsName(@Body() body) {
+    console.log('test searching for search_students by FirstName');
+    return this.studentsService.search_studentsName(body.FirstName);
+  }
+
+  // @Post('search')
+  // search_studentsEmail(@Body() body) {
+  //   console.log('test searching for search_students by email');
+  //   return this.studentsService.search_studentsEmail(body.email);
+  // }
+
+  @Post('search/phone')
+  search_studentsPhone(@Body() body) {
+    console.log('test searching for search_students by Phone');
+    return this.studentsService.search_studentsPhone(body.phone);
   }
 
   @Get()
