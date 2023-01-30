@@ -634,6 +634,51 @@ model status {
   history  history[]
 }
 
+model student {
+  id                Int    @id @default(autoincrement())
+  uid               String @db.VarChar(255)
+  firstname         String @db.VarChar(255)
+  lastname          String @db.VarChar(255)
+  gender            String @db.VarChar(255)
+  secondlanguage    String @db.VarChar(255)
+  religion          String @db.VarChar(255)
+  phone             String @db.VarChar(255)
+  mobile            String @db.VarChar(255)
+  email             String @db.VarChar(255)
+  system            String @db.VarChar(255)
+  grade             String @db.VarChar(255)
+  citizenship       String @db.VarChar(255)
+  withdraw          Int    @db.TinyInt
+  points            Int
+  date_of_birth     String @db.VarChar(255)
+  image             String @db.VarChar(255)
+  address           String @db.VarChar(255)
+  preschool         String @db.VarChar(255)
+  father_mobile     String @db.VarChar(255)
+  father_email      String @db.VarChar(255)
+  father_company    String @db.VarChar(255)
+  father_occupation String @db.VarChar(255)
+  mother_name       String @db.VarChar(255)
+  mother_mobile     String @db.VarChar(255)
+  mother_email      String @db.VarChar(255)
+  mother_degree     String @db.VarChar(255)
+  mother_company    String @db.VarChar(255)
+  mother_occupation String @db.VarChar(255)
+  previous_school   String @db.VarChar(255)
+  havesibling       String @db.VarChar(255)
+  parentsEmployee   String @db.VarChar(255)
+  username          String @db.VarChar(255)
+  password          String @db.VarChar(255)
+  national_id       String @db.VarChar(255)
+  father_nationalid String @db.VarChar(255)
+  mother_nationalid String @db.VarChar(255)
+  lang              String @db.VarChar(255)
+  country           String @db.VarChar(255)
+  system_title      String @db.VarChar(255)
+  grade_title       String @db.VarChar(255)
+  grade_id          Int?
+}
+
 model students {
   id                 Int                  @id @default(autoincrement())
   uid                String?              @db.VarChar(255)
